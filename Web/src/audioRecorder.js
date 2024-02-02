@@ -1,6 +1,26 @@
 // audioRecorder.js
 
+
 function setupAudioRecorder(startButtonId, stopButtonId, audioPlayerId, playButtonId) {
+
+  // Check for microphone permission
+  if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    navigator.mediaDevices.getUserMedia({ audio: true })
+      .then(function(stream) {
+        // Microphone permission granted
+      })
+      .catch(function(err) {
+        // Microphone permission denied
+        console.log('Microphone permission denied');
+        return;
+      });
+  } else {
+    // Browser doesn't support getUserMedia
+    console.log('Your browser does not support audio recording');
+    return;
+  }
+
+
   let mediaRecorder;
   let recordedChunks = [];
   var playable = false;
@@ -37,7 +57,7 @@ function setupAudioRecorder(startButtonId, stopButtonId, audioPlayerId, playButt
       const audioUrl = URL.createObjectURL(audioBlob);
       if(playable){
         audioPlayer.src = audioUrl;
-        playRecordingButton.disabled = false;
+        // playRecordingButton.disabled = false;
       }
 
       // Convert audio blob to Base64 string

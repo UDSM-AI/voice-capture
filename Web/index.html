@@ -32,6 +32,7 @@
     document.addEventListener('audioRecorded', (event) => {
       const audioDataInput = document.getElementById('audioData');
       audioDataInput.value = event.detail;
+      console.log(event.detail)
     });
 
     // Optionally, handle form submission
