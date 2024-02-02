@@ -1,0 +1,48 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Voice Recording Example</title>
+</head>
+<body>
+  <h1>Voice Recording Example</h1>
+  
+  <button id="startRecording">Start Recording</button>
+  <button id="stopRecording" disabled>Stop Recording</button>
+  <button id="playRecording" disabled>Play Recording</button>
+  
+  <audio id="audioPlayer" controls></audio>
+
+  <form id="audioForm">
+    <!-- Hidden input field to store the Base64-encoded audio data -->
+    <input type="hidden" id="audioData" name="audioData">
+    <button type="submit">Submit</button>
+  </form>
+
+  <!-- Include the audioRecorder.js script with the type attribute set to module -->
+  <script  src="src/audioRecorder.js"></script>
+
+  <script>
+    setupAudioRecorder("startRecording", "stopRecording", "audioPlayer", "playRecording");
+
+    // Listen for the custom event and update the hidden input field
+    document.addEventListener('audioRecorded', (event) => {
+      const audioDataInput = document.getElementById('audioData');
+      audioDataInput.value = event.detail;
+    });
+
+    // Optionally, handle form submission
+    const audioForm = document.getElementById('audioForm');
+    audioForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      // Access the Base64-encoded audio data from the hidden input
+      const audioData = document.getElementById('audioData').value;
+      // Perform form submission or other processing with the audio data
+      console.log('Audio Data:', audioData);
+    });
+  </script>
+</body>
+</html>
